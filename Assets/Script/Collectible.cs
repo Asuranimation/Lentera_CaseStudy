@@ -1,24 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    [SerializeField] private GameObject coins;
-    [SerializeField] int indexCoin;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField] int currentCoins;
+  
+    public void IncreaseCoins(int value)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            coins.SetActive(false);
-            indexCoin ++;
-        }
+        currentCoins += value;
     }
 
-    public int GetCoin()
+    public int GetCurrentCoins()
     {
-        return indexCoin;
+        return currentCoins;
     }
 
 }
