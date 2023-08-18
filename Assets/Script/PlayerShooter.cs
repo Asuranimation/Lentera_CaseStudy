@@ -14,6 +14,7 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] Transform tempObject;
 
     [SerializeField] Transform handPosition;
+    PlayerMovement player;
     void Start()
     {
         for (int i = 0; i < poolsize; i++) 
@@ -22,6 +23,8 @@ public class PlayerShooter : MonoBehaviour
             bullet.SetActive(false);
             projectilePool.Add(bullet);
         }
+        player = GetComponent<PlayerMovement>();
+
     }
 
     void Update()
@@ -44,23 +47,16 @@ public class PlayerShooter : MonoBehaviour
 
     IEnumerator FireContinuosly()
     {
-        PlayerMovement player = GetComponent<PlayerMovement>();
         while (true) 
         {
             GameObject laser = GetPooledObject();
             if (laser != null)
             {
                 laser.transform.position = handPosition.position;
+                laser.transform.rotation = handPosition.rotation;
                 laser.SetActive(true);
-                if(player.IsFacingRight())
-                {
-                    laser.GetComponent<Rigidbody2D>().velocity = Vector2.right * speedBullet;
-                }
-                else 
-                {
-                    laser.GetComponent<Rigidbody2D>().velocity = Vector2.left * speedBullet;
-
-                }
+                laser.GetComponent<Rigidbody2D>().velocity = Vector2.right * speedBullet;
+               
                 yield return new WaitForSeconds(rangeTimeToShoot);
             }
             else
