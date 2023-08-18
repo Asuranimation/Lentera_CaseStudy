@@ -14,14 +14,16 @@ public class PlayerShooter : MonoBehaviour
     [SerializeField] Transform tempObject;
 
     [SerializeField] Transform handPosition;
+    PlayerMovement player;
     void Start()
     {
         for (int i = 0; i < poolsize; i++) 
         {
-            GameObject bullet = Instantiate(projectilePrefabs, transform.position,transform.rotation, tempObject);
+            GameObject bullet = Instantiate(projectilePrefabs, transform.position, Quaternion.identity, tempObject);
             bullet.SetActive(false);
             projectilePool.Add(bullet);
         }
+        player = GetComponent<PlayerMovement>();
 
     }
 
@@ -51,8 +53,10 @@ public class PlayerShooter : MonoBehaviour
             if (laser != null)
             {
                 laser.transform.position = handPosition.position;
-                laser.transform.rotation = transform.rotation;
+                laser.transform.rotation = handPosition.rotation;
                 laser.SetActive(true);
+                laser.GetComponent<Rigidbody2D>().velocity = Vector2.right * speedBullet;
+               
                 yield return new WaitForSeconds(rangeTimeToShoot);
             }
             else

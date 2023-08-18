@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] float speedProjectile;
-    [SerializeField] int damage;
-    private void Update()
-    {
-        transform.Translate(Vector2.right * speedProjectile * Time.deltaTime);
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
@@ -20,7 +14,7 @@ public class Projectile : MonoBehaviour
         Health health = collision.gameObject.GetComponent<Health>();
         if(health != null)
         {
-            health.TakeDamage(damage);
+            health.TakeDamage(20);
             gameObject.SetActive(false);
         }
     }
